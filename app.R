@@ -6,7 +6,7 @@ STATES$Uninsured.Rate..2010. <- as.numeric(sub("%","",STATES$Uninsured.Rate..201
 STATES$Uninsured.Rate..2015. <- as.numeric(sub("%","",STATES$Uninsured.Rate..2015.))/100
 
 STATES$Uninsured.Rate.Change..2010.2015.<-STATES$Uninsured.Rate..2015.-STATES$Uninsured.Rate..2010.
-STATES$a.2020<-STATES$Uninsured.Rate.Change..2010.2015.+STATES$Uninsured.Rate..2015.
+STATES$UninsuredRateof2020assumption<-STATES$Uninsured.Rate.Change..2010.2015.+STATES$Uninsured.Rate..2015.
 STATES$population<-STATES$Health.Insurance.Coverage.Change..2010.2015./STATES$Uninsured.Rate.Change..2010.2015.*-1
 
 
@@ -14,7 +14,7 @@ STATES$Average.Monthly.Tax.Credit..2016.<-as.numeric(sub("\\$","",STATES$Average
 
 #lm-linear Modelling #In R, the lm()function can be used to create a simple regression model
 
-ml<-lm(STATES$a.2020~STATES$Uninsured.Rate..2015.)
+ml<-lm(STATES$UninsuredRateof2020assumption~STATES$Uninsured.Rate..2015.)
 ml
 
 summary(ml)
