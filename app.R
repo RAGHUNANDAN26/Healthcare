@@ -58,29 +58,35 @@ df.long<-melt(df)   #molten or taking the 3 col which we used compare
 
 #ui
 
-#install.packages('rsconnect')
-#rsconnect::setAccountInfo(name='raghunandan266',
-token='91471A3EA0D40DEDD7E3E9B41985073D',
-secret='<SECRET>')
 
 ui<-fluidPage(
-  h1("health insurence dataset"),  #header
-  #img(height=100,width=100,source="C:\\Users\\Lenovo\\Desktop\\ELEMENTS\\www"),
+  DT::dataTableOutput("results", width = 300),
+  titlePanel(title=h1("Healthcare Coverage of US",align="center")),  #header
   sidebarLayout(
     sidebarPanel(
       selectInput("statename","Choose a state",choices =STATES$State),width=3
     ),
     mainPanel(
       tableOutput("y"), 
-      plotOutput("q")
-    )
+      plotOutput("q"),
+    dataTableOutput("results")
+      )
   ))
 
-server<-shinyServer(function(input,output){
+#server
+
+Server=function(input,output,session){
+  
+  output$results <- DT::renderDataTable(
+    STATES,
+    options = list(scrollX = TRUE)
+    ),
   
   output$y<-renderTable(  #to display plot out
     sf<-subset(STATES[,c(1,2,3,17)],STATES$State==input$statename)
-  )
+  
+    ),
+  
   output$q<-renderPlot(
     
     ggplot(df.long,aes(STATES.State==input$statename,value,fill=variable))+  #when we compare two argument we should aes fn
@@ -89,8 +95,10 @@ server<-shinyServer(function(input,output){
     #text should be in 45degree 
     
   )
-  
+)  
+
 })
+
 
 shinyApp(ui=ui,server=server)  #to run or deploy shinyapp
 
