@@ -69,6 +69,7 @@ library(ggplot2)
 
 
 HealthCare_state$State2 <- factor(HealthCare_state$State, levels =HealthCare_state[order(HealthCare_state$Health_Ins_Cov_Ch_2010_2015), "State"])
+
 ggplot(HealthCare_state, aes(State2, Health_Ins_Cov_Ch_2010_2015)) + 
   geom_bar(stat="identity", fill = "firebrick") +
   coord_flip() +
