@@ -1,4 +1,9 @@
-STATES<-read.csv("states.csv",as.is = TRUE)
+
+#read the data from its directory
+
+#..\\data\usa_states_healthcare.csv
+
+STATES<-read.csv("usa_states_healthcare.csv",as.is = TRUE)
 STATES
 
 STATES$Uninsured.Rate..2010. <- as.numeric(sub("%","",STATES$Uninsured.Rate..2010.))

@@ -1,5 +1,3 @@
-#AvgMonCred&ST
-
 # This R environment comes with all of CRAN preinstalled, as well as many other helpful packages
 # The environment is defined by the kaggle/rstats docker image: https://github.com/kaggle/docker-rstats
 # For example, here's several helpful packages to load in 
@@ -13,7 +11,7 @@ library(readr) # CSV file I/O, e.g. the read_csv function
 
 # read file and do some basic setup
 
-HealthCare<- read.csv("states.csv", stringsAsFactors = FALSE)
+HealthCare<- read.csv("usa_state_healtcare.csv", stringsAsFactors = FALSE)
 
 colnames(HealthCare) <- c("State", 
                           "Uninsured_Rate_2010", 
@@ -66,16 +64,52 @@ HealthCare_US <- HealthCare[HealthCare$State == "United States", ]
 # create a new State vector thats ordered by Uninsured Rate Change for better plotting
 library(ggplot2)
 
-
-
-
-HealthCare_state$State2 <- factor(HealthCare_state$State, levels =HealthCare_state[order(HealthCare_state$Avg_Mo_Tx_Credit), "State"])
-ggplot(HealthCare_state, aes(State2, Avg_Mo_Tx_Credit)) + 
-  geom_bar(stat="identity", fill = "red") +
+HealthCare_state$State2 <- factor(HealthCare_state$State, levels =HealthCare_state[order(HealthCare_state$Uninsured_Rate_Ch_2010_2015), "State"])
+ggplot(HealthCare_state, aes(State2, Uninsured_Rate_Ch_2010_2015)) + 
+  geom_bar(stat="identity", fill = "firebrick") +
+  scale_y_continuous(labels = scales::percent) +
   coord_flip() +
-  ggtitle("Avg Monthly Tax Credit") +
+  ggtitle("Uninsured Rate Change 2010 - 2015") +
   theme(plot.title = element_text(hjust = 0.5)) +
   xlab("State") +
-  ylab("Avg Monthly Tax Credit") + 
-  geom_hline(yintercept = mean(HealthCare_state$Avg_Mo_Tx_Credit), color = "blue", linetype = "dotdash") # add national average
+  ylab("Uninsured Rate Change 2010-2015") + 
+  geom_hline(yintercept = HealthCare_US$Uninsured_Rate_Ch_2010_2015, color = "blue", linetype = "dotdash") # add national average
+
+
+
+# medicaid expansion
+
+# 2 missing values
+
+sum(is.na(HealthCare_state$Medicaid_Enroll_2013)) 
+aca_state2 <- HealthCare_state[complete.cases(HealthCare_state), ] # we'll just eliminate them for this exercise
+aca_state2$State2 <- factor(aca_state2$State, levels =aca_state2[order(aca_state2$Medicaid_Enroll_Ch_2013_2016), "State"])
+
+#plot
+
+ggplot(aca_state2, aes(State2, Medicaid_Enroll_Ch_2013_2016, fill=State_Medicaid_Exp)) + 
+  geom_bar(stat="identity") +
+  coord_flip() +
+  scale_x_continuous(labels = )
+ggtitle("Medicaid Enrollment Change 2013-2016") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("State") +
+  ylab("Medicaid Enrollment Change 2013-2016") +
+  scale_fill_discrete(name="Medicaid\nExpansion") +
+  geom_hline(yintercept = mean(aca_state2$Medicaid_Enroll_Ch_2013_2016), color = "blue", linetype = "dotdash") # add national average
+
+
+
+# Look at Health Insurance Coverage Change 
+# this would be more useful on a per capita basis
+
+HealthCare_state$State2 <- factor(HealthCare_state$State, levels =HealthCare_state[order(HealthCare_state$Health_Ins_Cov_Ch_2010_2015), "State"])
+ggplot(HealthCare_state, aes(State2, Health_Ins_Cov_Ch_2010_2015)) + 
+  geom_bar(stat="identity", fill = "firebrick") +
+  coord_flip() +
+  ggtitle("Health Insurance Change 2013-2015") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("State") +
+  ylab("Health Insurance Change 2013-2015") + 
+  geom_hline(yintercept = mean(HealthCare_state$Health_Ins_Cov_Ch_2010_2015), color = "blue", linetype = "dotdash") # add national average
 

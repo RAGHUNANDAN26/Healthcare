@@ -13,7 +13,9 @@ library(readr) # CSV file I/O, e.g. the read_csv function
 
 # read file and do some basic setup
 
-HealthCare<- read.csv("states.csv", stringsAsFactors = FALSE)
+#..\\data\usa_states_healthcare.csv
+
+HealthCare<- read.csv("usa_states_healthcare.csv", stringsAsFactors = FALSE)
 
 colnames(HealthCare) <- c("State", 
                           "Uninsured_Rate_2010", 
@@ -69,6 +71,7 @@ library(ggplot2)
 
 
 HealthCare_state$State2 <- factor(HealthCare_state$State, levels =HealthCare_state[order(HealthCare_state$Health_Ins_Cov_Ch_2010_2015), "State"])
+
 ggplot(HealthCare_state, aes(State2, Health_Ins_Cov_Ch_2010_2015)) + 
   geom_bar(stat="identity", fill = "firebrick") +
   coord_flip() +

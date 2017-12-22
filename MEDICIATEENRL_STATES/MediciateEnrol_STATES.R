@@ -11,7 +11,9 @@ library(readr) # CSV file I/O, e.g. the read_csv function
 
 # read file and do some basic setup
 
-HealthCare<- read.csv("states.csv", stringsAsFactors = FALSE)
+#..\\data\usa_states_healthcare.csv
+
+HealthCare<- read.csv("usa_state_healtcare.csv", stringsAsFactors = FALSE)
 
 colnames(HealthCare) <- c("State", 
                           "Uninsured_Rate_2010", 

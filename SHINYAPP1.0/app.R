@@ -1,5 +1,5 @@
 
-STATES<-read.csv("states.csv",as.is = TRUE)
+STATES<-read.csv("usa_state_healtcare.csv",as.is = TRUE)
 STATES
 
 STATES$Uninsured.Rate..2010. <- as.numeric(sub("%","",STATES$Uninsured.Rate..2010.))/100 

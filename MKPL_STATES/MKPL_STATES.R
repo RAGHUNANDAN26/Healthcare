@@ -1,4 +1,4 @@
-#HIC&ST
+#Mktpl&ST
 
 # This R environment comes with all of CRAN preinstalled, as well as many other helpful packages
 # The environment is defined by the kaggle/rstats docker image: https://github.com/kaggle/docker-rstats
@@ -11,9 +11,11 @@ library(readr) # CSV file I/O, e.g. the read_csv function
 #You can find out which directory by running the getwd() function
 #use setwd() and specify the path to the desired folder
 
-# read file and do some basic setup
+# read file and do some basic setup from
 
-HealthCare<- read.csv("states.csv", stringsAsFactors = FALSE)
+#..\\data\usa_states_healthcare.csv
+
+HealthCare<- read.csv("usa_state_healtcare.csv", stringsAsFactors = FALSE)
 
 colnames(HealthCare) <- c("State", 
                           "Uninsured_Rate_2010", 
@@ -68,13 +70,15 @@ library(ggplot2)
 
 
 
-HealthCare_state$State2 <- factor(HealthCare_state$State, levels =HealthCare_state[order(HealthCare_state$Health_Ins_Cov_Ch_2010_2015), "State"])
 
-ggplot(HealthCare_state, aes(State2, Health_Ins_Cov_Ch_2010_2015)) + 
+
+HealthCare_state$State2 <- factor(HealthCare_state$State, levels =HealthCare_state[order(HealthCare_state$Mktpl_Ins_Cov_Ch_2010_2015), "State"])
+ggplot(HealthCare_state, aes(State2, Mktpl_Ins_Cov_Ch_2010_2015)) + 
   geom_bar(stat="identity", fill = "firebrick") +
   coord_flip() +
-  ggtitle("Health Insurance Change 2013-2015") +
+  ggtitle("Marketplace Health Insurance Change 2013-2015") +
   theme(plot.title = element_text(hjust = 0.5)) +
   xlab("State") +
-  ylab("Health Insurance Change 2013-2015") + 
-  geom_hline(yintercept = mean(HealthCare_state$Health_Ins_Cov_Ch_2010_2015), color = "blue", linetype = "dotdash") # add national average
+  ylab("Marketplace Health Insurance Change 2013-2015") + 
+  geom_hline(yintercept = mean(HealthCare_state$Mktpl_Ins_Cov_Ch_2010_2015), color = "blue", linetype = "dotdash") # add national average
+
