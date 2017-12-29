@@ -144,3 +144,6 @@ ggplot(HealthCare_state, aes(State2, Avg_Mo_Tx_Credit)) +
   ylab("Avg Monthly Tax Credit") + 
   geom_hline(yintercept = mean(HealthCare_state$Avg_Mo_Tx_Credit), color = "blue", linetype = "dotdash") # add national average
 
+
+
+
